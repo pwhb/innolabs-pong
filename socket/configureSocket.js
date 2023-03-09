@@ -1,57 +1,64 @@
-const score = {
-    team1: 0,
-    team2: 0,
-    winner: "",
-    scoredBy: "",
+const config = {
+  team1Name: "team 1",
+  team2Name: "team 2",
+  team1: 0,
+  team2: 0,
+  winner: "",
+  scoredBy: "",
 };
 
 const prevState = {
-    team1: 0,
-    team2: 0,
-    scoredBy: "",
+  team1: 0,
+  team2: 0,
+  scoredBy: "",
 };
 
 const updateScore = (teamName, update) => {
-    prevState.team1 = score.team1;
-    prevState.team2 = score.team2;
-    prevState.scoredBy = score.scoredBy;
-    score[teamName] += update;
-    score.scoredBy = teamName;
+  prevState.team1 = config.team1;
+  prevState.team2 = config.team2;
+  prevState.scoredBy = config.scoredBy;
+  config[teamName] += update;
+  config.scoredBy = teamName;
 
-    // console.log({ score, prevState });
+  // console.log({ config, prevState });
 };
 
 const undoScore = () => {
-    score.team1 = prevState.team1;
-    score.team2 = prevState.team2;
-    score.scoredBy = prevState.scoredBy;
-    score.winner = "";
+  config.team1 = prevState.team1;
+  config.team2 = prevState.team2;
+  config.scoredBy = prevState.scoredBy;
+  config.winner = "";
 };
 
 const resetScore = () => {
-    score.team1 = 0;
-    score.team2 = 0;
-    score.scoredBy = "";
-    score.winner = "";
+  config.team1 = 0;
+  config.team2 = 0;
+  config.scoredBy = "";
+  config.winner = "";
 };
 
 module.exports = (io) => {
-    io.on("connection", (socket) => {
-        socket.emit("update", score);
+  io.on("connection", (socket) => {
+    socket.emit("update", config);
 
-        socket.on("update", ({ teamName, update }) => {
-            updateScore(teamName, update);
-            io.emit("update", score);
-        });
-
-        socket.on("undo", () => {
-            undoScore();
-            io.emit("update", score);
-        });
-
-        socket.on("reset", () => {
-            resetScore();
-            io.emit("update", score);
-        });
+    socket.on("update", ({ teamName, update }) => {
+      updateScore(teamName, update);
+      io.emit("update", config);
     });
+
+    socket.on("undo", () => {
+      undoScore();
+      io.emit("update", config);
+    });
+
+    socket.on("reset", () => {
+      resetScore();
+      io.emit("update", config);
+    });
+
+    socket.on("update-config", ({ team, name }) => {
+      config[team] = name;
+      io.emit("update", config);
+    });
+  });
 };
