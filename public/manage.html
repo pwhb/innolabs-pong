@@ -8,7 +8,7 @@
       type="text/css"
       href="https://fonts.googleapis.com/css?family=Orbitron"
     />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/manage.css" />
   </head>
   <body>
     <h1 class="title">Manage</h1>
@@ -19,6 +19,33 @@
       <input type="text" placeholder="team2" id="team2-input" />
       <button id="team2-submit">submit</button>
     </div>
+    <p>serving <span id="serving-team"></span></p>
+    <select name="serving" id="serving-select">
+      <option id="team1-option" value="team1">team1</option>
+      <option id="team2-option" value="team2">team2</option>
+    </select>
+    
+    <button id="serving-submit">submit</button>
+
+    <p>serving count <span id="serving-count-value"></span></p>
+    <input type="number" id="serving-count">
+    <button id="serving-count-submit">submit</button>
+
+    <div class="container">
+      <div class="child">
+        <p id="team1-name">team 1</p>
+        <p id="team1-score" class="score">0</p>
+        <button id="team1-up">+</button>
+        <button id="team1-down">-</button>
+      </div>
+      <div class="child">
+        <p id="team2-name">team 2</p>
+        <p id="team2-score" class="score">0</p>
+        <button id="team2-up">+</button>
+        <button id="team2-down">-</button>
+      </div>
+    </div>
+    <button id="reset">reset</button>
     <script src="/socket.io/socket.io.js"></script>
 
     <script src="/js/manage.js"></script>

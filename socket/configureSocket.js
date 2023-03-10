@@ -4,6 +4,8 @@ const config = {
   team1: 0,
   team2: 0,
   winner: "",
+  serving: "",
+  servesPerPerson: 5,
   scoredBy: "",
 };
 
@@ -19,6 +21,23 @@ const updateScore = (teamName, update) => {
   prevState.scoredBy = config.scoredBy;
   config[teamName] += update;
   config.scoredBy = teamName;
+
+  if ((config.team1 + config.team2) % config.servesPerPerson === 0) {
+    console.log(
+      "config.servesPerPerson % (config.team1 + config.team2)",
+      config.servesPerPerson % (config.team1 + config.team2),
+      config
+    );
+    console.log("change", config.serving);
+    switch (config.serving) {
+      case "team1":
+        config.serving = "team2";
+        break;
+      case "team2":
+        config.serving = "team1";
+        break;
+    }
+  }
 
   // console.log({ config, prevState });
 };
@@ -46,6 +65,11 @@ module.exports = (io) => {
       io.emit("update", config);
     });
 
+    socket.on("update-serving", ({ team }) => {
+      config.serving = team;
+      io.emit("update", config);
+    });
+
     socket.on("undo", () => {
       undoScore();
       io.emit("update", config);
@@ -56,8 +80,14 @@ module.exports = (io) => {
       io.emit("update", config);
     });
 
-    socket.on("update-config", ({ team, name }) => {
-      config[team] = name;
+    socket.on("update-config", ({ team, name, servesPerPerson }) => {
+      console.log({ team, name, servesPerPerson });
+      if (name && team) {
+        config[team] = name;
+      }
+      if (servesPerPerson) {
+        config.servesPerPerson = servesPerPerson;
+      }
       io.emit("update", config);
     });
   });

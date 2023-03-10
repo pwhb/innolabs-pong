@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Score Board</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Orbitron"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/display.css" />
+  </head>
+  <body>
+    <h1 class="title">InnoLabs Ping Pong Score Board</h1>
+    <div class="container">
+      <div class="child" id="team1-container">
+        <p class="teamName" id="team1">TEAM 1</p>
+        <p class="score" id="team1-score">0</p>
+      </div>
+
+      <div class="child" id="team2-container">
+        <p class="teamName" id="team2">TEAM 2</p>
+        <p class="score" id="team2-score">0</p>
+      </div>
+    </div>
+    <!-- <button class="button undo" id="undo">UNDO</button> -->
+    <!-- <button class="button reset" id="reset">RESET</button> -->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="/js/display.js"></script>
+  </body>
+</html>

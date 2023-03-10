@@ -16,6 +16,10 @@ app.get("/config", (req, res) => {
   res.sendFile(__dirname + "/public/manage.html")
 });
 
+app.get("/display", (req, res) => {
+  res.sendFile(__dirname + "/public/display.html")
+});
+
 configureSocket(io)
 
 
